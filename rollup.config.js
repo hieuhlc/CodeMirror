@@ -11,6 +11,10 @@ export default {
 // at http://marijnhaverbeke.nl/blog/#cm-internals .
 `,
   entry: "src/codemirror.js",
+  external: [ 'detect-it' ],
+  globals: {
+    'detect-it': 'detectIt'
+  },
   format: "umd",
   dest: "lib/codemirror.js",
   moduleName: "CodeMirror",
