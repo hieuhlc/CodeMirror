@@ -45,5 +45,8 @@
     "directories": {},
     "dependencies": {},
     "devDependencies": {}
+  },
+  "dependencies": {
+    "detect-it": "^3.0.4"
   }
 }

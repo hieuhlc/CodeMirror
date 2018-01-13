@@ -1,5 +1,6 @@
 import { mac } from "./browser.js"
 import { indexOf } from "./misc.js"
+import detectIt from "detect-it"
 
 // EVENT HANDLING
 
@@ -7,10 +8,16 @@ import { indexOf } from "./misc.js"
 // registering native DOM handlers.
 
 const noHandlers = []
+const scrollEvents = ["touchstart", "touchmove", "mousewheel"]
+
+function getCaptureConfigForEvent(e) {
+  if (scrollEvents.indexOf(e) == -1) return false
+  return detectIt.passiveEvents ? { capture: false, passive: true } : false
+}
 
 export let on = function(emitter, type, f) {
   if (emitter.addEventListener) {
-    emitter.addEventListener(type, f, false)
+    emitter.addEventListener(type, f, getCaptureConfigForEvent(type))
   } else if (emitter.attachEvent) {
     emitter.attachEvent("on" + type, f)
   } else {
@@ -25,7 +32,7 @@ export function getHandlers(emitter, type) {
 
 export function off(emitter, type, f) {
   if (emitter.removeEventListener) {
-    emitter.removeEventListener(type, f, false)
+    emitter.removeEventListener(type, f, getCaptureConfigForEvent(type))
   } else if (emitter.detachEvent) {
     emitter.detachEvent("on" + type, f)
   } else {
